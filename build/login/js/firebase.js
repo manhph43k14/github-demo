@@ -15,3 +15,22 @@ var app_firebase = {};
 
     app_firebase = firebase;
 })()
+
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        // User is signed in.
+        document.getElementById('user_div').style.display = "initial";
+        document.getElementById('login_div').style.display = "none";
+    } else {
+        // No user is signed in.
+        document.getElementById('user_div').style.display = "none";
+        document.getElementById('login_div').style.display = "initial";
+    }
+});
+
+function login() {
+
+    var userEmail = document.getElementById('email').value;
+    var userPassword = document.getElementById('password').value;
+    window.alert(userEmail + " " + userPassword);
+}   
