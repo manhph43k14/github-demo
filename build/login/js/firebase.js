@@ -1,36 +1,57 @@
-var app_firebase = {};
-(function() {
-    var firebaseConfig = {
-        apiKey: "AIzaSyBOJY8Sdddvin3x4edZBjHI_3IaOYMGcCc",
-        authDomain: "app-demo-231d0.firebaseapp.com",
-        databaseURL: "https://app-demo-231d0.firebaseio.com",
-        projectId: "app-demo-231d0",
-        storageBucket: "app-demo-231d0.appspot.com",
-        messagingSenderId: "603311182490",
-        appId: "1:603311182490:web:4fa79bd98ac84f9a21c523",
-        measurementId: "G-TTYKDSJMMY"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+//login
+const signupForm = document.querySelector('#login_form');
+signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-    app_firebase = firebase;
-})()
+        // get user info
+        const email = loginForm['login-email'].value;
+        const password = loginForm['login-password'].value;
 
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-        // User is signed in.
-        document.getElementById('user_div').style.display = "initial";
-        document.getElementById('login_div').style.display = "none";
-    } else {
-        // No user is signed in.
-        document.getElementById('user_div').style.display = "none";
-        document.getElementById('login_div').style.display = "initial";
-    }
-});
+        // sign up user
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(function(response) {
+                console.log(cred.user)
+                    // close the login modal and reset form
+                const modal = document.querySelector('#modal-login');
+                M.Modal.getInstance(modal).close();
+                loginForm.reset();
+            })
+            .catch(function(error) {
 
-function login() {
+            });
+    })
+    // sign up
+const signupForm = document.querySelector('#signup_form');
+signupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-    var userEmail = document.getElementById('email').value;
-    var userPassword = document.getElementById('password').value;
-    window.alert(userEmail + " " + userPassword);
-}   
+        // get user info
+        const email = signupForm['signup-email'].value;
+        const password = signupForm['signup-password'].value;
+
+        // sign up user
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(function(response) {
+                // close the sign up modal and reset form
+                const modal = document.querySelector('#modal-signup');
+                M.Modal.getInstance(modal).close();
+                signupForm.reset();
+            })
+            .catch(function(error) {
+
+            });
+    })
+    // log out
+const logout = document.querySelector('#logout');
+signupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    firebase.auth().signOut()
+        .then(function() {
+            // Sign-out successful.
+            Console.log('User loged out')
+        }).catch(function(error) {
+            // An error happened.
+            Console.log('User log out failed')
+        });
+})
